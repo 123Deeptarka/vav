@@ -18,13 +18,7 @@ import streamlit as st
 import numpy as np 
 from xgboost import XGBRegressor
 import matplotlib.pyplot as plt
-#rom tensorflow.keras.models import Sequential
-#rom tensorflow.keras.layers import Conv1D,Activation,MaxPooling1D,Dense,Flatten
-#mport keras 
-from sklearn.linear_model import LinearRegression
-from sklearn.ensemble import RandomForestRegressor
-from sklearn.tree import DecisionTreeRegressor
-from sklearn.metrics import mean_squared_error, mean_absolute_error,r2_score
+
 
 
 st.markdown('<h1 style="font-size: 40px; font-weight: bold;"> Pushover Curve and Damage States</h1>', unsafe_allow_html=True)
@@ -32,7 +26,7 @@ st.markdown('<h1 style="font-size: 40px; font-weight: bold;"> Pushover Curve and
 st.sidebar.header("Specify Input Parameters")
 
 
-#import data
+
 
 df = pd.read_excel('shearmldata.xlsx')
 x = df[["D","L/D","fc","fyl","fyt","pl","pt","Ny"]]
@@ -56,13 +50,11 @@ x_train,x_test,y_train,y_test = train_test_split(x,y,test_size = 0.2,random_stat
 
 
 
-#model=XGBRegressor(n_estimators=100,random_state=0,max_depth=5,max_leaves=20,reg_lambda=1,reg_alpha=2)
+
 model=XGBRegressor()
-#model=RandomForestRegressor()
-#model=DecisionTreeRegressor(random_state=2,max_depth=15,min_samples_leaf=1,min_samples_split=2)
-#model=LinearRegression()
+
 model.fit(x_train,y_train)
-#pred=model.predict(x_test)
+
 
 y_pred=model.predict(x_test)
 y_pred_train=model.predict(x_train)
@@ -104,10 +96,7 @@ new_column_names = {
 # Rename the columns
 Data.rename(columns=new_column_names, inplace=True)
 
-#style = [
-#   dict(selector="th", props=[("font-size", "20px"), ("font-weight", "bold"), ("color", "#484848")]),
-#    dict(selector="td", props=[("font-size", "16px"),("font-weight", "bold") ,("color", "#484848")])
-#]
+
 style = [
     dict(selector="th", props=[("font-size", "20px"), ("font-weight", "bold"), ("color", "#484848"), ("border", "4px solid #484848")]),
     dict(selector="td", props=[("font-size", "16px"), ("font-weight", "bold"), ("color", "#484848"), ("border", "4px solid #484848")]),
@@ -171,32 +160,22 @@ P=pd.DataFrame(prediction,columns=["DS1","DS2","DS3","DS4","F1 (kN)","F2 (kN)","
 P_DS=P[["DS1","DS2","DS3","DS4"]]
 
 
-#st.dataframe(P_DS,hide_index=True)
+
 P_F=P[["F1 (kN)","F2 (kN)","F3 (kN)","F4 (kN)"]]
-#P_DS_display = P_DS.reset_index(drop=True)
-#st.write(P_DS)
-#styles = [
- #   dict(selector="th", props=[("font-size", "20px"), ("font-weight", "bold"), ("color", "#484848")]),
- #   dict(selector="td", props=[("font-size", "16px"),("font-weight", "bold") ,("color", "#484848")])
-#]
-# Apply styling to dataframe
-#styled_df = P_DS.style.set_table_styles(styles)
-#st.table(styled_df)
 
-# Title
-#st.write("Drift Ratio")
 
-# Title with Markdown for styling
+
+
+
+
+
 st.markdown("<h1 style='text-align: center; font-size: 20px; font-weight: bold; color: #484848;'>Drift Ratio (%)</h1>", unsafe_allow_html=True)
 
-# Subtitles
+
 #st.write("DS1, DS2, DS3, DS4")
 
-# Styling
-#styles = [
-   # dict(selector="th", props=[("font-size", "20px"), ("font-weight", "bold"), ("color", "#484848")]),
-   # dict(selector="td", props=[("font-size", "16px"), ("font-weight", "bold")    ,("color", "#484848")])
-#]
+
+
 styles = [
     dict(selector="th", props=[("font-size", "20px"), ("font-weight", "bold"), ("color", "#484848"), ("border", "4px solid #484848")]),
     dict(selector="td", props=[("font-size", "16px"), ("font-weight", "bold"), ("color", "#484848"), ("border", "4px solid #484848")]),
@@ -264,13 +243,11 @@ b=np.insert(Outpred_F_0,0,0)
 st.header("Predicted Pushover Curve ")
 fig,ax=plt.subplots(figsize=(6,3))
 ax.plot(a,b,label="Predicted Pushover Curve",marker="o")
-#ax.plot(a1,b1,label="Simulated Pushover Curve",marker="o")
+
 ax.set_xlabel("Drift Ratio (%)")
 ax.set_ylabel("Force (kN)")
-#ax.set_title("Predicted VS Simulated Pushover Curves")
-#ax.legend()
-#ax.show()
-#st.pyplot(fig)
+
+
 # Label the points
 for i in range(1, 5):  # We start from 1 to skip the (0,0) point
     ax.annotate(f'DS{i}', (a[i], b[i]), textcoords="offset points", xytext=(5,-20), ha='center')
